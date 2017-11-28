@@ -25,10 +25,12 @@ def get_urls(key,sum):
     s = set()
 
 
-    for pn in  range(0,21):
-        print "pn=" + str(pn*30)
+    for pn in  range(0,2):
+        print ("pn=" + str(pn*30))
         url = "https://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord=" + key + "&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=-1&z=&ic=0&word=" + key + "&s=&se=&tab=&width=&height=&face=0&istype=2&qc=&nc=1&fr=&pn=" + str(pn * 30) + "&rn=30"
         r = requests.get(url,headers=headers).text.encode("utf-8")
+
+        print (r)
         try:
             dictinfo = json.loads(r)
 
@@ -40,14 +42,14 @@ def get_urls(key,sum):
                     n = n + 1
                     s.add(str(temp)+"\n")
         except:
-            print "请求发送失败"
+            print ("请求发送失败")
 
-    print len(s)
+    print (len(s))
     f = open("urls.txt","w")
     for url in s:
         f.write(url)
     f.close()
-    print "get_urls done"
+    print ("get_urls done")
 
 def write_pics(SavePath,sum):
     f = open("./urls.txt","r")
@@ -61,19 +63,19 @@ def write_pics(SavePath,sum):
         m = m + 1
 
     f1.close()
-    print "write_pics done"
+    print ("write_pics done")
 
 def get_class(name):
     name = name.split("|")
-    print len(name)
+    print (len(name))
 
     for index  in range(0,len(name)):
-        print "mingzi= " + name[index]
+        print ("mingzi= " + name[index])
         SavePath = "./snow" + str(name[index]) + "_"
-        print SavePath
+        print (SavePath)
         get_urls(name[index],sum)
         write_pics(SavePath,sum)
-        print 'a'
+        print ('a')
 if __name__=="__main__":
     sea = "海边|海岸|沿海"
     tree = "山林|树林|森林"

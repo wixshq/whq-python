@@ -1,7 +1,5 @@
-
 # -*- coding:utf-8 -*-
 import requests,json
-import urllib2
 url = "https://image.baidu.com/search/acjson"
 
 
@@ -32,32 +30,32 @@ def get_urls(key,sum):
 
     #循环获取url
     for pn in range(0,2):
-        print "pn=" + str(pn*30)
+        print ("pn=" + str(pn*30))
         url = "https://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord=" + key + "&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=-1&z=&ic=0&word=" + key + "&s=&se=&tab=&width=&height=&face=0&istype=2&qc=&nc=1&fr=&pn=" + str(pn*30) + "&rn=30"
         #url = "http://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&fp=result&queryWord={key}&cl=2&lm=-1&ie=utf-8&oe=utf-8&st=-1&ic=0&word={key}&face=0&istype=2nc=1&pn={pn}&rn=60"
         #url = "https://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord="+key+"&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=-1&z=&ic=0&word=%E6%B5%B7%E8%BE%B9&s=&se=&tab=&width=&height=&face=0&istype=2&qc=&nc=1&fr=&pn="+str(pn*30)+"&rn=30"
         #print url
         r = requests.get(url,headers=headers).text.encode("utf-8")
+
+        print ("r=" + r)
         try:
             dictinfo = json.loads(r)
             #每页30张
-            for i in range(0,2):
-                #print i
-                if n == sum:
-                    flag = False
-                else:
+            for i in range(0,30):
+
+
                     temp = dictinfo["data"][i]["thumbURL"]
-                    n = n + 1
+
                     s.add(str(temp)+"\n")
         except:
-            print "请求发送失败重试"
+            print ("请求发送失败重试")
 
-    print len(s)
+    print (len(s))
     f = open("urls.txt","w")
     for url in s:
         f.write(url)
     f.close()
-    print "get_urls 完成"
+    print ("get_urls 完成")
 
 
 #将图片写在pic文件夹
@@ -75,26 +73,26 @@ def write_pics(SavePath,sum):
         m = m + 1
 
     f1.close()
-    print "write_pics 完成"
+    print ("write_pics 完成")
 
 def get_class(name):
     name = name.split("|")
-    print len(name)
+    print (len(name))
 
     for index in range(0,len(name)):
-        print "mingzi=" + name[index]
+        print ("mingzi=" + name[index])
         SavePath = "./snow/"+ str(name[index]) + "_"
-        print SavePath
+        print (SavePath)
         get_urls(name[index], sum)
         write_pics(SavePath,sum)
-        print "a"
+        print ("a")
 
 
 if __name__=="__main__":
-    # sea = "海边|海岸|沿海"
-    # tree = "山林|树林|森林"
-    # road = "公路|道路|小路|马路"
+    sea = "海边|海岸|沿海"
+    tree = "山林|树林|森林"
+    road = "公路|道路|小路|马路"
     snow ="雪景|雪地|冬天景色"
-    # town ="小镇|小镇风光|小镇建筑风景"
+    town ="小镇|小镇风光|小镇建筑风景"
     sum = 600
     get_class(snow)

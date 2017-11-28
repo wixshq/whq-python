@@ -24,6 +24,7 @@ def get_page_index(offset,keyword):
 
 def parse_page_index(html):
     data = json.loads(html)
+    print(data.keys())
     if data and 'data' in data.keys():
         for item in data.get('data'):
             yield item.get('article_url')
@@ -41,6 +42,7 @@ def get_page_detail(url):
 def main():
     html = get_page_index(0,'街拍')
     for url in parse_page_index(html):
+        print(url)
 
 
 
